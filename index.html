@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<!--
+  On Chrome or Chrome Canary:
+  1. Go to chrome://flags
+  2. Enable WebVR & WebXR Game Support
+  3. Disable WebXR Device
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Detroit Zoo</title>
+    
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+
+    <!-- https://github.com/Utopiah/googlepoly-load-component -->
+    <script src="https://rawgit.com/Utopiah/googlepoly-load-component/master/googlepoly-load-component.js"></script>
+
+    <!-- https://github.com/donmccurdy/aframe-extras/tree/master/src/loaders -->
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v5.0.0/dist/aframe-extras.min.js"></script>
+
+    <!-- https://github.com/fernandojsg/aframe-teleport-controls -->
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+
+    <!-- https://www.npmjs.com/package/aframe-event-set-component -->
+    <script src="https://unpkg.com/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+
+    <!-- https://github.com/supermedium/aframe-environment-component -->
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+
+    <!-- https://www.npmjs.com/package/aframe-look-at-component -->
+
+    <script src="https://unpkg.com/aframe-look-at-component/dist/aframe-look-at-component.min.js"></script>
+  </head>
+
+  <body>
+    <a-scene
+      cursor="rayOrigin: mouse"
+      sound="src: #rainforest; on: click; volume: 0.1"
+    >
+      <!-- All the assets -->
+      <a-assets>
+        <!-- models -->
+        <a-asset-item
+          id="kangaroo-obj"
+          src="https://raw.githubusercontent.com/michaelnebeling/src/master/kangaroo/RedKangaroo.obj"
+        ></a-asset-item>
+        <a-asset-item
+          id="kangaroo-mtl"
+          src="https://raw.githubusercontent.com/michaelnebeling/src/master/kangaroo/RedKangaroo.mtl"
+        ></a-asset-item>
+        <img
+          id="kangaroo-tex"
+          src="https://raw.githubusercontent.com/michaelnebeling/src/master/kangaroo/RedKangaroo_BaseColor.png"
+        />
+        <a-asset-item
+          id="anteater"
+          src="https://kdails.github.io/anteater/NOVELO_ANTEATER.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="carousel"
+          src="https://kdails.github.io/carousel/model.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="cougar"
+          src="https://kdails.github.io/cougar/Cougar.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="bear"
+          src="https://kdails.github.io/bear/Bear.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="coati"
+          src="https://kdails.github.io/coati/Coati.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="penguin"
+          src="https://kdails.github.io/penguin/Mesh_Penguin.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="goat"
+          src="https://kdails.github.io/goat/Goat.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="hyena"
+          src="https://kdails.github.io/hyena/SpottedHyena.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="longhorn"
+          src="https://kdails.github.io/longhorn/AnkoleLonghornCattle.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="bighorn"
+          src="https://kdails.github.io/bighorn/BighornSheep.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="sloth"
+          src="https://kdails.github.io/sloth/GroundSloth.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="bison"
+          src="https://kdails.github.io/bison/BisonPlains.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="polarbear"
+          src="https://kdails.github.io/polar/bear_animation.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="gorilla"
+          src="https://kdails.github.io/gorilla/Mesh_Gorilla.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="zebra"
+          src="https://kdails.github.io/zebra/Zebra.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="ashtree"
+          src="https://kdails.github.io/tree/AshTree.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="panda"
+          src="https://kdails.github.io/panda/Mesh_Panda.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="bamboo"
+          src="https://kdails.github.io/bamboo/PUSHILIN_bamboo.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="conservatory"
+          src="https://kdails.github.io/conservatory/atrium stage2.gltf"
+        ></a-asset-item>
+        <!-- nature sound -->
+        <audio
+          id="rainforest"
+          src="https://cdn.rawgit.com/michaelnebeling/src/master/rainforest_ambience-GlorySunz-1938133500.mp3"
+          crossorigin="anonymous"
+        ></audio>
+      </a-assets>
+
+      <!-- Click to begin -->
+      <a-text
+        id="begin"
+        value="Click to begin"
+        position="0 2 -3"
+        align="center"
+      ></a-text>
+
+      <!-- Environment -->
+      <a-entity
+        environment="preset: forest; groundTexture: walkernoise;dressingAmount: 60; fog: 0"
+      ></a-entity>
+
+      <!--Park assets carosel from Google Poly -->
+
+      <a-entity
+        gltf-model="#carousel"
+        rotation="0 0 0"
+        position="-5 -4.5 -40"
+        scale="10 8 10"
+      ></a-entity>
+
+      <!-- Conservation Campus -->
+
+      <a-text
+        value="Conservation Campus"
+        position="0 3 50"
+        scale="10 10 0"
+        look-at="#head"
+        align="center"
+        color="green"
+      ></a-text>
+
+      <a-box
+        id="conservation"
+        position="0 0 45"
+        scale="75 28 50"
+        color="green"
+        side="double"
+        opacity="0.3"
+      ></a-box>
+
+      <!-- Conservatory by Robert S at https://poly.google.com/view/cZhYyD8q8Io -->
+
+      <a-entity
+        gltf-model="#conservatory"
+        rotation="0 -90 0"
+        position="0 0 45"
+        scale="15 14 15"
+      ></a-entity>
+
+      <!-- Australian Outback Adventure -->
+
+      <a-text
+        value="Australian Outback Adventure"
+        position="-5 3 -90"
+        scale="10 10 0"
+        look-at="#head"
+        align="center"
+        color="darkred"
+      ></a-text>
+      <a-box
+        id="australian"
+        position="-7 0 -90"
+        scale="45 10 20"
+        color="darkred"
+        side="double"
+        opacity="0.3"
+      ></a-box>
+
+      <!-- Kangaroo by David Edwards: https://poly.google.com/view/aVeHDI6USBX -->
+      <a-entity
+        id="kangaroo"
+        position="-10 0 -85"
+        scale="0.35 0.35 0.35"
+        obj-model="obj: #kangaroo-obj; mtl: #kangaroo-mtl"
+        material="src: #kangaroo-tex; color: brown; roughness: 1; metalness: 0"
+      ></a-entity>
+
+      <a-entity
+        id="kangarootoo"
+        position="-5 0 -85"
+        scale="0.25 0.25 0.25"
+        obj-model="obj: #kangaroo-obj; mtl: #kangaroo-mtl"
+        material="src: #kangaroo-tex; color: brown; roughness: 1; metalness: 0"
+      ></a-entity>
+
+      <!-- American Grasslands -->
+
+      <a-text
+        value="American Grasslands"
+        position="-45 4 -30"
+        scale="10 10 0"
+        look-at="#head"
+        align="center"
+        color="yellow"
+      ></a-text>
+      <a-box
+        id="american"
+        position="-45 0 -40"
+        scale="50 15 125"
+        color="yellow"
+        side="double"
+        opacity="0.5"
+      ></a-box>
+
+      <!-- Bison by Google: https://poly.google.com/view/9sTrha-TxdS -->
+      <a-entity
+        gltf-model="#bison"
+        position="-70 0 -30"
+        rotation="0 0 0"
+        scale=".25 .25 .25"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bison"
+        position="-30 .5 -30"
+        rotation="0 0 0"
+        scale=".25 .25 .25"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bison"
+        position="-60 .5 -35"
+        rotation="0 0 0"
+        scale=".2 .2 .2"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bison"
+        position="-40 .5 -20"
+        rotation="0 0 0"
+        scale=".2 .2 .2"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bison"
+        position="-70 .5 -30"
+        rotation="0 0 0"
+        scale=".25 .25 .25"
+      ></a-entity>
+      <a-entity
+        gltf-model="#bison"
+        position="-39 .5 -34"
+        rotation="0 90 0"
+        scale=".25 .25 .25"
+      ></a-entity>
+
+      <!-- longhorn cattle by Google: https://poly.google.com/view/4kUChlMv8Vp -->
+      <a-entity
+        gltf-model="#longhorn"
+        position="-25 .5 -10"
+        rotation="0 90 0"
+        scale=".3 .3 .3"
+      ></a-entity>
+      <a-entity
+        gltf-model="#longhorn"
+        position="-70 .5 -15"
+        rotation="0 180 0"
+        scale=".3 .3 .3"
+      ></a-entity>
+
+      <!-- Anteater by Google: https://poly.google.com/view/07VI28sK4a0 -->
+      <a-entity
+        gltf-model="#anteater"
+        position="-25 1 0"
+        scale=".007 .007 .007"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#anteater"
+        position="-30 1 -60"
+        rotation="0 90 0"
+        scale=".007 .007 .007"
+      ></a-entity>
+      <a-entity
+        gltf-model="#anteater"
+        position="-35 1 -65"
+        scale=".009 .009 .009"
+      ></a-entity>
+
+      <!-- African Grasslands -->
+
+      <a-text
+        value="African Grasslands"
+        position="42.5 3 -60"
+        scale="10 10 0"
+        look-at="#head"
+        align="center"
+        color="orange"
+      ></a-text>
+      <a-box
+        id="african"
+        position="42.5 0 -60"
+        scale="65 19 80"
+        color="orange"
+        side="double"
+        opacity="0.5"
+      ></a-box>
+      <a-entity
+        id="giraffe"
+        rotation="-90 -90 0"
+        position="40 0 -50"
+        scale="0.01 0.01 0.01"
+        gpoly="polyid: aTAr4AayOrB; API_KEY: AIzaSyDsovdrekNH2A-NiKfMtMWA8LXebZQ41nk"
+      ></a-entity>
+      <a-entity
+        id="giraffe2"
+        rotation="-90 -189 0"
+        position="55 0 -45"
+        scale="0.011 0.01 0.011"
+        gpoly="polyid: aTAr4AayOrB; API_KEY: AIzaSyDsovdrekNH2A-NiKfMtMWA8LXebZQ41nk"
+      ></a-entity>
+
+      <!-- Zebra by Google: https://poly.google.com/view/8Ut7mhb-aqK -->
+      <a-entity
+        gltf-model="#zebra"
+        rotation="0 0 0"
+        position="30 0 -60"
+        scale=".25 .25 .25"
+        gpoly="polyid: 8Ut7mhb-aqK; API_KEY: AIzaSyDsovdrekNH2A-NiKfMtMWA8LXebZQ41nk"
+      ></a-entity>
+      <a-entity
+        gltf-model="#zebra"
+        rotation="0 90 0"
+        position="25 0 -70"
+        scale=".3 .3 .3"
+      ></a-entity>
+
+      <!-- Rhinoceros by Google: https://poly.google.com/view/7XutktqrTj_ -->
+      <a-entity
+        id="rhinoceros"
+        scale="0.3 0.3 0.3"
+        position="70 0 -80"
+        gpoly="polyid: 7XutktqrTj_; API_KEY:AIzaSyCm8E76KW5EKsy8GXUsZkT3ucbTnUf5xrU"
+      ></a-entity>
+
+      <!-- Rhinoceros by Google: https://poly.google.com/view/7XutktqrTj_ -->
+      <a-entity
+        id="rhinoceros2"
+        scale="0.2 0.2 0.2"
+        position="65 0 -77"
+        gpoly="polyid: 7XutktqrTj_; API_KEY:AIzaSyCm8E76KW5EKsy8GXUsZkT3ucbTnUf5xrU"
+      ></a-entity>
+
+      <!-- Rhinoceros by Google: https://poly.google.com/view/7XutktqrTj_ -->
+      <a-entity
+        id="lion"
+        scale="1 1 1"
+        position="0 0 0"
+        gpoly="polyid: 3XAJojWxSWz; API_KEY:AIzaSyCm8E76KW5EKsy8GXUsZkT3ucbTnUf5xrU"
+      ></a-entity>
+
+      <!-- Giraffe by Google: https://poly.google.com/view/aTAr4AayOrB -->
+      <a-entity
+        id="giraffe3"
+        rotation="-90 -180 0"
+        position="36 0 -50"
+        scale="0.005 0.005 0.005"
+        gpoly="polyid: aTAr4AayOrB; API_KEY: AIzaSyDsovdrekNH2A-NiKfMtMWA8LXebZQ41nk"
+      ></a-entity>
+
+      <!-- Arctic Ring of Life -->
+
+      <a-text
+        value="Arctic Ring of Life"
+        position="-2 5 -65"
+        scale="12 15 0"
+        look-at="#head"
+        align="center"
+        color="cyan"
+      ></a-text>
+      <a-box
+        id="arctic"
+        position="5 0 -65"
+        scale="35 15 25"
+        color="cyan"
+        side="double"
+        opacity="0.5"
+      ></a-box>
+
+      <!-- Polar Bear by Jay Foster: https://poly.google.com/view/8raAHgBKfpo -->
+      <a-entity
+        gltf-model="#polarbear"
+        position="5 0 -65"
+        rotation="0 180 0"
+        scale=".8 .8  .8"
+      ></a-entity>
+      <!-- Polar Bear by Jay Foster: https://poly.google.com/view/8raAHgBKfpo -->
+      <a-entity
+        gltf-model="#polarbear"
+        position="2 0 -65"
+        rotation="-90 270 -90"
+        scale=".8 .8  .8"
+      ></a-entity>
+
+      <!-- African Forest -->
+
+      <a-text
+        value="African Forest"
+        position="13 4 -15"
+        scale="8 10 0"
+        look-at="#head"
+        align="center"
+        color="teal"
+      ></a-text>
+      <a-box
+        id="African"
+        position="23.5 0 -5"
+        scale="32 27 30"
+        color="teal"
+        side="double"
+        opacity="0.5"
+      ></a-box>
+
+      <!-- AshTree by Google: https://poly.google.com/view/23TdGBi6jmv -->
+      <a-entity
+        gltf-model="#ashtree"
+        position="30 0 -6"
+        rotation="0 -45 0"
+        scale="1 1.3  1"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#ashtree"
+        position="20 0 -1"
+        rotation="0 -140 0"
+        scale=".5 .5  .5"
+      ></a-entity>
+
+      <!-- Ground sloth by Google: https://poly.google.com/view/34WS63awSqJ -->
+      <a-entity
+        gltf-model="#sloth"
+        position="30 1 -6"
+        rotation="90 0 0"
+        scale=".25 .25 .25"
+      ></a-entity>
+
+      <!-- Gorilla by Google: https://poly.google.com/view/8raAHgBKfpo -->
+      <a-entity
+        gltf-model="#gorilla"
+        position="10 1 -4"
+        rotation="0 -45 0"
+        scale=".02 .02  .02"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="15 1 -15"
+        rotation="0 -45 0"
+        scale=".01 .01  .01"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="17 1 -9"
+        rotation="0 45 0"
+        scale=".02 .02  .02"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="20 1 -8"
+        rotation="0 -45 0"
+        scale=".01 .01  .01"
+      ></a-entity>
+
+      <!-- other gorilla group -->
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="29 1 3"
+        rotation="0 -45 0"
+        scale=".01 .01  .01"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="17 1 4"
+        rotation="0 45 0"
+        scale=".02 .02  .02"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#gorilla"
+        position="20 1 6"
+        rotation="0 -45 0"
+        scale=".01 .01  .01"
+      ></a-entity>
+
+      <!-- Asian Forest -->
+      <a-text
+        value="Asian Forest"
+        position="55 4 -14"
+        scale="10 10 0"
+        look-at="#head"
+        align="center"
+        color="red"
+      ></a-text>
+      <a-box
+        id="asian"
+        position="65 0 4"
+        scale="50 17 50"
+        color="red"
+        side="double"
+        opacity="0.5"
+      ></a-box>
+
+      <!-- bamboo by Google: https://poly.google.com/view/auVD_m-ugF0 -->
+      <a-entity
+        gltf-model="#bamboo"
+        position="65 1 8"
+        scale="10 10 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="74 1 6"
+        scale="10 9 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="60 1 10"
+        scale="9 10 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="70 1 1"
+        scale="10 8 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="55 1 20"
+        scale="10 10 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="84 1 16"
+        scale="10 9 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="50 1 20"
+        scale="9 10 8"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#bamboo"
+        position="50 1 11"
+        scale="10 8 8"
+      ></a-entity>
+
+      <!-- Panda by Google: https://poly.google.com/view/2T6A0o4Kq2h- -->
+      <a-entity
+        gltf-model="#panda"
+        position="52 1 7"
+        scale=".01 .01 .01"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#panda"
+        position="50 1 14"
+        rotation="0 -180 0"
+        scale=".02 .02 .02"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#panda"
+        rotation="0 -17 0"
+        position="45 1 17"
+        scale=".015 .015 .015"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#panda"
+        position="58 1 19"
+        rotation="0 90 0"
+        scale=".02 .02 .02"
+      ></a-entity>
+
+      <!-- Cougar by Google: https://poly.google.com/view/8nuCN-gn2s- -->
+      <a-entity
+        gltf-model="#cougar"
+        position="55 0 -14"
+        scale=".3 .3 .3"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#cougar"
+        rotation="0 -45 0"
+        position="59 0 -10"
+        scale=".3 .3 .3"
+      ></a-entity>
+
+      <a-entity
+        gltf-model="#cougar"
+        rotation="0 -130 0"
+        position="49 .6 -2"
+        scale=".15 .15 .15"
+      ></a-entity>
+
+      <!-- Cheetah by Google: https://poly.google.com/view/5y59KqZXxWf -->
+      <a-entity
+        id="cheetah"
+        position="62 .3 -1"
+        scale="0.35 0.35 0.35"
+        gpoly="polyid: 5y59KqZXxWf; API_KEY:AIzaSyCm8E76KW5EKsy8GXUsZkT3ucbTnUf5xrU"
+      ></a-entity>
+
+      <!-- Water -->
+
+      <a-ocean
+        position="-20 0 -70"
+        width="50"
+        depth="25"
+        density="10"
+        speed="0.1"
+        opacity="0.5"
+      ></a-ocean>
+      <a-ocean
+        position="-10 0 50"
+        width="20"
+        depth="20"
+        density="10"
+        speed="0.1"
+        opacity="0.5"
+      ></a-ocean>
+
+      <!-- Camera & Controller -->
+
+      <a-entity id="camera-rig">
+        <!--     <a-entity id="head" camera position="0 1.6 0" wasd-controls="acceleration: 100" look-controls> -->
+      </a-entity>
+      <a-entity
+        id="controller"
+        laser-controls="hand: right"
+        raycaster="objects: .collider; showLine: true"
+        line="color: white; opacity: 0.8"
+        teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities: .environmentGround .environmentDressing"
+      ></a-entity>
+
+      <!-- Helpers -->
+      <a-entity id="camera-helper" position="0 50 0" rotation="-60 0 0">
+        <a-camera></a-camera>
+        <a-animation attribute="position" to="0 0 0" dur="10000"></a-animation>
+        <a-animation attribute="rotation" to="0 0 0" dur="10000"></a-animation>
+      </a-entity>
+
+      <a-torus id="head-helper" rotation="-90 0 0"></a-torus>
+    </a-scene>
+  </body>
+</html>
